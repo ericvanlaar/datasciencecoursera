@@ -1,6 +1,6 @@
 ---
 title: "MTcars Data set"
-output: word_document
+output: html_document
 ---
 
 
@@ -15,4 +15,3 @@ plot(mtcars$hp, mtcars$mpg, xlab="HorsePower", ylab="Miles Per Gallon", main="Re
 abline(lm(mtcars$mpg~mtcars$hp))
 boxplot(mtcars$mpg~mtcars$cyl, xlab="Cylinders", ylab="Miles Per Gallon", main="Miles Per Gallon by Cylinder")
 ```
-
