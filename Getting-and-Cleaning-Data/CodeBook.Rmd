@@ -1,0 +1,66 @@
+## CodeBook
+
+This code book will describe the variables, the data, and any transformations that have been performed to clean up the data.
+
+### Overview 
+
+The data utilized for this project represent experimental data collected from the accelerometers from a group of 30 volunteers within an age bracket of 19-48 years, using the Samsung Galaxy S smartphone. 
+
+### The dataset includes the following files:
+
+Metadata
+
+* `features.txt`: List of all features - 561 features
+* `activity_labels.txt`: Name and ID of 6 activities: walking, walking upstairs, walking downstairs, sitting, standing, laying
+
+Training Data [folder: /train]
+
+* `X_train.txt`: 7352 observations of the 561 features, for 21 of the 30 volunteers
+* `subject_train.txt`: Each row identifies the subject who performed the activity for each window sample. Its range is from 1 to 30
+* `y_train.txt`: A vector of 7352 integers, denoting the ID of the activity related to each of the observations in X-train.txt
+
+
+Test Data [folder: /test]
+
+* `X_test.txt`: 2947 observations of the 561 features, for 9 of the 30 volunteers
+* `subject_test.txt`: Each row identifies the subject who performed the activity for each window sample. Its range is from 1 to 30
+* `y_test.txt`: A vector of 2947 integers, denoting the ID of the activity related to each of the observations in X-test.txt
+
+Additional info regarding the files is available in `README.md`. More information about the features is available in `features_info.txt`.
+
+### Processing steps
+
+1. Merge the training and the test sets to create one data set
+- All Training Data and Test Data were read into separate data frames, and then combined into a *subject*, *features*, and *activity* data frame. 
+- `features.txt` metadata was used as column names for the *features* data frame
+- *activity* data frame was given column name 'activity'
+- *subject* data frame was given column name 'subjectID'
+
+2. Extract only the measurements on the mean and standard deviation for each measurement
+- Any feature column was removed that didn't contain exact string 'mean()' or 'std()'. The result was **66** feature columns, plus the *subjectID* and *activity* columns.
+        
+3.  Use descriptive activity names to name the activities in the data set
+- In the `activity_labels.txt` file unneeded character "_" was removed, and 'activity' name was converted to lower case  
+- The 'activity' column in *activity* data frame was converted from an integer to a factor, using labels in `activity_labels.txt`
+        
+4. Appropriately label the data set with descriptive variable names
+- The following replacements were made for *features* data frame so as to make the variable names more readable:
+Acc--> Accelerometer, 
+Gyro--> Gyroscope, 
+BodyBody--> Body, 
+Mag--> Magnitude, 
+tBody--> TimeBody, 
+-mean--> _Mean, 
+-std--> _STD, 
+angle--> Angle, 
+gravity--> Gravity
+
+5. Combine all data frames to create a single data frame
+- create 'full_data' data frame to include all data sets to include all observations of *subject*, *features*, and *activity*
+- create 'filtered_data' data frame to include only extracted measurements on mean and standard deviation from filter created in step 2
+
+6. From the data set in step 4, create a second, independent tidy data set with the average of each variable for each activity and each subject
+- Tidy data set created which contains the mean of each feature for each subject and each activity. For instance each subject has exactly 6 rows in the tidy data set - each row corresponds to each activity, and each row contains the mean value for each of the 66 features for that subject/activity combination. Given that there are 6 activities and 30 subjects, the combination ofthese two results in a total of 180 rows
+
+7. Output tidy data set to `tidy.txt` file
+
